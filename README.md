@@ -16,43 +16,43 @@ This series is designed to build your knowledge incrementally. Each session focu
 
 ### Workshop Schedule
 
-#### Week 1: Getting Started with OpenTofu - 2024-09-25
+#### Week 1: Getting Started with OpenTofu - 2024-09-25 @ 10A PST / 5P GMT
 
 Introduction to OpenTofu, its purpose, and basic installation. Learn to set up a project and understand the foundational concepts of Infrastructure as Code. Write your first OpenTofu configuration and define basic infrastructure resources like compute instances and networking components.
 
-#### Week 2: Modular Infrastructure with OpenTofu - 2024-10-02
+#### Week 2: Modular Infrastructure with OpenTofu - 2024-10-02 @ 10A PST / 5P GMT
 
 Organize your code with reusable modules. Learn how to import modules into configurations and apply best practices for modular infrastructure design.
 
-#### Week 3: Functions and Control Structures in OpenTofu - 2024-10-09
+#### Week 3: Functions and Control Structures in OpenTofu - 2024-10-09 @ 10A PST / 5P GMT
 
 Learn to enhance your infrastructure configurations using OpenTofu’s built-in and custom functions, and control structures. This session will cover how to use functions and control structures like conditionals and loops to create dynamic and adaptable configurations. We'll also dive into creating custom functions using `opentofu/terraform-provider-go` to extend the functionality of your setups.
 
-#### Week 4: Advanced OpenTofu Resource Management - 2024-10-16
+#### Week 4: Advanced OpenTofu Resource Management - 2024-10-16 @ 10A PST / 5P GMT
 
 Explore advanced resource configurations using locals, outputs, blocks, dynamic blocks, and dependencies. Create more dynamic and flexible infrastructure setups.
 
-#### Week 5: Integrating OpenTofu into CI/CD Pipelines - 2024-10-23
+#### Week 5: Integrating OpenTofu into CI/CD Pipelines - 2024-10-23 @ 10A PST / 5P GMT
 
 Integrate OpenTofu into CI/CD pipelines to automate infrastructure deployments. Set up a pipeline to test, validate, and apply configurations reliably.
 
-#### Week 6: Testing and Validation with OpenTofu - 2024-10-30
+#### Week 6: Testing and Validation with OpenTofu - 2024-10-30 @ 10A PST / 5P GMT
 
 Learn how to incorporate testing and validation into your OpenTofu workflows. This session will focus on tools and practices for testing your infrastructure code, including syntax validation, resource policy checks, and simulating infrastructure changes before applying them. By the end of this week, you'll know how to ensure that your configurations are reliable, secure, and ready for production.
 
-#### Week 7: Multi-Environment Infrastructure Management - 2024-11-06
+#### Week 7: Multi-Environment Infrastructure Management - 2024-11-06 @ 10A PST / 5P GMT
 
 Manage and deploy infrastructure across multiple environments. Set up configurations for development, staging, and production to ensure consistency.
 
-#### Week 8: Understanding State Management - 2024-11-13
+#### Week 8: Understanding State Management - 2024-11-13 @ 10A PST / 5P GMT
 
 Explore how OpenTofu manages the state of your infrastructure. Learn about state files, secure storage, and state locking strategies for managing multiple environments.
 
-#### Week 9: Mastering State Management and Resource Imports - 2024-11-20
+#### Week 9: Mastering State Management and Resource Imports - 2024-11-20 @ 10A PST / 5P GMT
 
 Deep dive into state management, reading remote state, including importing existing infrastructure and handling state changes. Learn best practices for managing legacy resources.
 
-#### Week 10: Scaling and Best Practices for OpenTofu - 2024-11-27
+#### Week 10: Scaling and Best Practices for OpenTofu - 2024-11-27 @ 10A PST / 5P GMT
 
 Focus on scaling OpenTofu for large infrastructures and adopt best practices. Organize large projects, manage team collaboration, and implement advanced infrastructure strategies.
 
