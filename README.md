@@ -60,6 +60,7 @@ Focus on scaling OpenTofu for large infrastructures and adopt best practices. Or
 
 * An AWS Account - Register [here](https://aws.amazon.com/free/), everything we'll build is on the AWS Free Tier
 * OpenTofu CLI - Download [here](https://opentofu.org/docs/intro/install/)
+* Download the AWS CLI ([here](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)) and setup your AWS credentials - Docs [here](https://docs.aws.amazon.com/cli/v1/userguide/cli-configure-files.html)
 * (Optional) A Massdriver Account - Get a free one-year trial [here](https://app.massdriver.cloud/register?attribution=OpenTofu)
 
 ## Who is This Workshop For?
