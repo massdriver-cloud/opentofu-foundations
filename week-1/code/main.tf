@@ -6,16 +6,15 @@ data "aws_vpc" "default" {
 }
 
 resource "aws_instance" "this" {
-  ami                    = "ami-08578967e04feedea"
-  vpc_security_group_ids = [aws_security_group.wordpress.id]
+  # Amazon Linux 2 AMI
+  ami = "ami-08578967e04feedea"
 
   # Free Tier: t2.micro 750 hours / month - 12 months
-  instance_type               = "t2.micro"
-  associate_public_ip_address = true
+  instance_type = "t2.micro"
 
-  tags = {
-    Name = var.name_prefix
-  }
+  # Useful for demo, wouldn't advise for production workloads
+  associate_public_ip_address = true
+  vpc_security_group_ids      = [aws_security_group.this.id]
 
   user_data = <<-EOF
               #!/bin/bash
@@ -25,46 +24,41 @@ resource "aws_instance" "this" {
               usermod -a -G docker ec2-user
               docker run -d \
                 -e WORDPRESS_DB_HOST=${aws_db_instance.this.endpoint} \
-                -e WORDPRESS_DB_USER=admin \
-                -e WORDPRESS_DB_PASSWORD=yourpassword \
-                -e WORDPRESS_DB_NAME=wordpress \
+                -e WORDPRESS_DB_USER=${aws_db_instance.this.username} \
+                -e WORDPRESS_DB_PASSWORD=${aws_db_instance.this.password} \
+                -e WORDPRESS_DB_NAME=${aws_db_instance.this.db_name} \
                 -p 80:80 ${var.image.name}:${var.image.tag}
-
               EOF
+
+  tags = {
+    Name = var.name_prefix
+  }
 }
 
 resource "aws_db_instance" "this" {
-  identifier = var.name_prefix
+  identifier        = var.name_prefix # cloud identifier for this database
+  instance_class    = "db.t3.micro"
+  allocated_storage = 20
+  engine            = "mariadb"
+  engine_version    = "10.6"
+  db_name           = "wordpress" # logical database name
 
-  ### Free Tier: db.t2.micro 750 hours / month - 12 months
-  instance_class = "db.t3.micro" # Change to desired instance size
-
-  # Free Tier: 20GB storage
-  allocated_storage = 20 # Storage size in GB
-
-  engine = "mariadb"
-  # Wordpress 6 https://make.wordpress.org/hosting/handbook/compatibility/
-  engine_version = "10.6"
-
-  db_name  = "wordpress"
-  username = "admin"
-
-  password               = "yourpassword" # Master password
-  publicly_accessible    = length(var.enable_public_mariadb_access) != 0
+  username               = "admin"
+  password               = "yourpassword"
   vpc_security_group_ids = [aws_security_group.mariadb.id]
   skip_final_snapshot    = true
 }
 
-resource "aws_security_group" "wordpress" {
-  name        = "${var.name_prefix}-wordpress"
-  description = "Allow HTTP inbound traffic"
+resource "aws_security_group" "this" {
+  name        = "${var.name_prefix}-web-service"
+  description = "Allow all outbound traffic"
 
   ingress {
     description = "HTTP"
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["0.0.0.0/0"] # Allow from anywhere (replace with a specific IP range for better security)
   }
 
   # Needs to be able to get to docker hub to download images
@@ -72,7 +66,7 @@ resource "aws_security_group" "wordpress" {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["0.0.0.0/0"] # Allow all outbound traffic
   }
 }
 
@@ -85,6 +79,6 @@ resource "aws_security_group" "mariadb" {
     to_port   = 3306
     protocol  = "tcp"
 
-    cidr_blocks = concat([data.aws_vpc.default.cidr_block], var.enable_public_mariadb_access)
+    cidr_blocks = [data.aws_vpc.default.cidr_block]
   }
 }
