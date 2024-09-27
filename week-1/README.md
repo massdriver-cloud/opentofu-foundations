@@ -5,7 +5,7 @@
 
 ## Introduction
 
-Welcome to week one of the OpenTofu workshop! In this module, you'll learn how to create an EC2 instance running Wordpress, set up a MariaDB database, and configure basic infrastructure in AWS. We’ll go through creating instances, security groups, and databases while discussing key Terraform/OpenTofu concepts.
+Welcome to week one of the [OpenTofu workshop](https://www.massdriver.cloud/blogs/opentofu-foundations---a-free-weekly-workshop-to-build-your-iac-skills)! In this module, you'll learn how to create an EC2 instance running Wordpress, set up a MariaDB database, and configure basic infrastructure in AWS. We’ll go through creating instances, security groups, and databases while discussing key Terraform/OpenTofu concepts.
 
 **Important**: The goal of this session is _not_ to create the most reliable, secure infrastructure. We're trying to do the bare minimum AWS so we can focus on OpenTofu and IaC concepts.
 
@@ -29,6 +29,11 @@ Commands you'll use to manage your infrastructure.
 * `tofu validate`
 * `tofu plan`
 * `tofu apply`
+
+## Prerequisites
+
+- An AWS Account.
+- [OpenTofu CLI](https://opentofu.org/docs/intro/install/) installed.
 
 ## Walkthrough
 
