@@ -1,7 +1,6 @@
 # Week 1 Course: Introduction to OpenTofu and Basic Commands
 
-**Duration:** 1 hour
-
+Missed the session? Watch [here](https://www.youtube.com/watch?v=bd9AGCT4E18)
 
 ## Introduction
 
