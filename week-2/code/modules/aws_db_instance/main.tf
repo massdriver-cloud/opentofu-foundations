@@ -1,3 +1,10 @@
+data "aws_vpc" "default" {
+  filter {
+    name = "isDefault"
+    values = ["true"]
+  }
+}
+
 resource "aws_db_instance" "this" {
   identifier              = var.name_prefix
   instance_class          = var.instance_class
@@ -18,10 +25,10 @@ resource "aws_security_group" "this" {
   description = "Allow access to MariaDB"
 
   ingress {
-    from_port   = var.ingress_from_port
-    to_port     = var.ingress_to_port
-    protocol    = var.ingress_protocol
-    cidr_blocks = var.ingress_cidr_blocks
+    from_port   = 3306
+    to_port     = 3306
+    protocol    = "tcp"
+    cidr_blocks = [data.aws_vpc.default.cidr_block]
   }
 
   egress {
@@ -33,3 +40,4 @@ resource "aws_security_group" "this" {
 
   tags = var.tags
 }
+

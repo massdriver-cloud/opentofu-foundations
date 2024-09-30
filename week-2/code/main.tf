@@ -18,14 +18,6 @@ provider "aws" {
   }
 }
 
-# Data source to get the default VPC
-data "aws_vpc" "default" {
-  filter {
-    name   = "isDefault"
-    values = ["true"]
-  }
-}
-
 # Module for Database Instance
 module "aws_db_instance" {
   source = "./modules/aws_db_instance"
@@ -34,8 +26,6 @@ module "aws_db_instance" {
   db_name     = "wordpress"
   username    = "admin"
   password    = "yourpassword"  # In production, use a secure method for passwords
-
-  ingress_cidr_blocks = [data.aws_vpc.default.cidr_block]
 
   tags = {
     Owner = "YourName"

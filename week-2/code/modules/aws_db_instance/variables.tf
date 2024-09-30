@@ -48,26 +48,3 @@ variable "tags" {
   default     = {}
 }
 
-variable "ingress_from_port" {
-  description = "Ingress from port"
-  type        = number
-  default     = 3306
-}
-
-variable "ingress_to_port" {
-  description = "Ingress to port"
-  type        = number
-  default     = 3306
-}
-
-variable "ingress_protocol" {
-  description = "Ingress protocol"
-  type        = string
-  default     = "tcp"
-}
-
-variable "ingress_cidr_blocks" {
-  description = "Ingress CIDR blocks"
-  type        = list(string)
-  default     = []
-}
