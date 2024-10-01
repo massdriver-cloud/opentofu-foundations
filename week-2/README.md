@@ -68,7 +68,7 @@ cd modules/aws_instance
 touch {main.tf,variables.tf,outputs.tf}
 ```
 
-##### **`main.tf`**:
+##### **`main.tf`**
 
 ```hcl
 resource "aws_instance" "this" {
@@ -92,25 +92,25 @@ resource "aws_security_group" "this" {
 
   ingress {
     description = "HTTP"
-    from_port   = var.ingress_from_port
-    to_port     = var.ingress_to_port
-    protocol    = var.ingress_protocol
-    cidr_blocks = var.ingress_cidr_blocks
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
     description = "Allow all outbound traffic"
-    from_port   = var.egress_from_port
-    to_port     = var.egress_to_port
-    protocol    = var.egress_protocol
-    cidr_blocks = var.egress_cidr_blocks
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   tags = var.tags
 }
 ```
 
-##### **`variables.tf`**:
+##### **`variables.tf`**
 
 ```hcl
 variable "name_prefix" {
@@ -127,12 +127,23 @@ variable "description" {
 variable "ami" {
   description = "AMI ID for the EC2 instance"
   type        = string
+  default     = "ami-08578967e04feedea" # Amazon Linux 2 AMI
+
+  validation {
+    condition     = length(regex("^ami-[0-9a-z]{17}$", var.ami)) > 0
+    error_message = "AMI must start with \"ami-\"."
+  }
 }
 
 variable "instance_type" {
   description = "Instance type for the EC2 instance"
   type        = string
   default     = "t2.micro"
+
+  validation {
+    condition     = contains(["t2.micro", "t3.micro"], var.instance_type)
+    error_message = "Allowed instance types are \"t2.micro\", \"t3.micro\"."
+  }
 }
 
 variable "user_data" {
@@ -147,56 +158,9 @@ variable "tags" {
   default     = {}
 }
 
-variable "ingress_from_port" {
-  description = "Ingress from port"
-  type        = number
-  default     = 80
-}
-
-variable "ingress_to_port" {
-  description = "Ingress to port"
-  type        = number
-  default     = 80
-}
-
-variable "ingress_protocol" {
-  description = "Ingress protocol"
-  type        = string
-  default     = "tcp"
-}
-
-variable "ingress_cidr_blocks" {
-  description = "Ingress CIDR blocks"
-  type        = list(string)
-  default     = ["0.0.0.0/0"]
-}
-
-variable "egress_from_port" {
-  description = "Egress from port"
-  type        = number
-  default     = 0
-}
-
-variable "egress_to_port" {
-  description = "Egress to port"
-  type        = number
-  default     = 0
-}
-
-variable "egress_protocol" {
-  description = "Egress protocol"
-  type        = string
-  default     = "-1"
-}
-
-variable "egress_cidr_blocks" {
-  description = "Egress CIDR blocks"
-  type        = list(string)
-  default     = ["0.0.0.0/0"]
-}
 ```
 
-##### **`outputs.tf`**:
+##### **`outputs.tf`**
 
 ```hcl
 output "instance_id" {
@@ -224,9 +188,16 @@ cd ../aws_db_instance
 touch {main.tf,variables.tf,outputs.tf}
 ```
 
-##### **`main.tf`**:
+##### **`main.tf`**
 
 ```hcl
+data "aws_vpc" "default" {
+  filter {
+    name = "isDefault"
+    values = ["true"]
+  }
+}
+
 resource "aws_db_instance" "this" {
   identifier              = var.name_prefix
   instance_class          = var.instance_class
@@ -247,10 +218,10 @@ resource "aws_security_group" "this" {
   description = "Allow access to MariaDB"
 
   ingress {
-    from_port   = var.ingress_from_port
-    to_port     = var.ingress_to_port
-    protocol    = var.ingress_protocol
-    cidr_blocks = var.ingress_cidr_blocks
+    from_port   = 3306
+    to_port     = 3306
+    protocol    = "tcp"
+    cidr_blocks = [data.aws_vpc.default.cidr_block]
   }
 
   egress {
@@ -262,9 +233,10 @@ resource "aws_security_group" "this" {
 
   tags = var.tags
 }
+
 ```
 
-##### **`variables.tf`**:
+##### **`variables.tf`**
 
 ```hcl
 variable "name_prefix" {
@@ -316,33 +288,9 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
-
-variable "ingress_from_port" {
-  description = "Ingress from port"
-  type        = number
-  default     = 3306
-}
-
-variable "ingress_to_port" {
-  description = "Ingress to port"
-  type        = number
-  default     = 3306
-}
-
-variable "ingress_protocol" {
-  description = "Ingress protocol"
-  type        = string
-  default     = "tcp"
-}
-
-variable "ingress_cidr_blocks" {
-  description = "Ingress CIDR blocks"
-  type        = list(string)
-  default     = []
-}
 ```
 
-##### **`outputs.tf`**:
+##### **`outputs.tf`**
 
 ```hcl
 output "endpoint" {
@@ -579,11 +527,17 @@ In this module, we expanded on the infrastructure from Week 1 by modularizing th
 
 Want to keep practicing before Week 3? Here are some challenges:
 
-1. **Enhance the Database Module**: Add variables to configure more database options, such as backup retention, multi-AZ deployments, or storage type.
-2. **Parameterize Security Groups**: Modify the security group definitions to accept lists of ports and protocols.
+1. **Enhance the Database Module**: Add [variables](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/db_instance) to configure more database options, such as backup retention, multi-AZ deployments, or storage type. Add [validations](https://opentofu.org/docs/language/expressions/custom-conditions/) to some of the variables for the database `variables.tf` (`instance_class`, `allocated_storage`, `engine`, `engine_version`)
+2. **Parameterize Security Groups**: Modify the security group definitions for `aws_instance` and `aws_db_instance` to accept lists of ports and protocols as variables.
 3. **Use AWS Secrets Manager**: Store the database password in AWS Secrets Manager and retrieve it in your configuration.
 4. **Create a VPC Module**: Create a module for VPC components like subnets, route tables, and internet gateways.
-5. **Implement Module Versioning**: Tag your modules with versions and test upgrading between versions.
+5. **Implement Module Versioning**: [Tag your modules](https://opentofu.org/docs/language/modules/sources/) with versions and test upgrading between versions:
+
+```terraform
+module "vpc" {
+  source = "github.com/my-repo/my-module?ref=sha1234"
+}
+```
 
 ---
 
