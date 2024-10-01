@@ -529,7 +529,7 @@ Want to keep practicing before Week 3? Here are some challenges:
 
 1. **Enhance the Database Module**: Add [variables](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/db_instance) to configure more database options, such as backup retention, multi-AZ deployments, or storage type. Add [validations](https://opentofu.org/docs/language/expressions/custom-conditions/) to some of the variables for the database `variables.tf` (`instance_class`, `allocated_storage`, `engine`, `engine_version`)
 2. **Parameterize Security Groups**: Modify the security group definitions for `aws_instance` and `aws_db_instance` to accept lists of ports and protocols as variables.
-3. **Use AWS Secrets Manager**: Store the database password in AWS Secrets Manager and retrieve it in your configuration.
+3. **Use AWS Secrets Manager**: Store the database password in [AWS Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/intro.html) (or [SSM](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html)) and retrieve it in your configuration. 
 4. **Create a VPC Module**: Create a module for VPC components like subnets, route tables, and internet gateways.
 5. **Implement Module Versioning**: [Tag your modules](https://opentofu.org/docs/language/modules/sources/) with versions and test upgrading between versions:
 
