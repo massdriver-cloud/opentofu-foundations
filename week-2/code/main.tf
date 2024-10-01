@@ -25,7 +25,7 @@ module "aws_db_instance" {
   name_prefix = "week2-db"
   db_name     = "wordpress"
   username    = "admin"
-  password    = "yourpassword"  # In production, use a secure method for passwords
+  password    = "yourpassword" # In production, use a secure method for passwords
 
   tags = {
     Owner = "YourName"
