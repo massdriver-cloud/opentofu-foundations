@@ -63,6 +63,19 @@ Focus on scaling OpenTofu for large infrastructures and adopt best practices. Or
 * Download the AWS CLI ([here](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)) and setup your AWS credentials - Docs [here](https://docs.aws.amazon.com/cli/v1/userguide/cli-configure-files.html)
 * (Optional) A Massdriver Account - Get a free one-year trial [here](https://app.massdriver.cloud/register?attribution=OpenTofu)
 
+Find an AWS Linux Machine Image (AMI) for your region:
+
+```shell
+aws ec2 describe-images \
+    --filters \
+        "Name=owner-alias,Values=amazon" \
+        "Name=platform-details,Values=Linux/UNIX" \
+        "Name=name,Values=amzn2-ami-hvm-2.*-x86_64-gp2" \
+    --query 'Images[*].[Name,ImageId]' \
+    --output text \
+    --region YOUR_REGION_HERE
+```
+
 ## Who is This Workshop For?
 
 - **Beginners**: If you're new to Infrastructure as Code, this series will help you build a strong foundation in OpenTofu.
