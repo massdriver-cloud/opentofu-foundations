@@ -1,0 +1,26 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/alpine
+{
+	"name": "Alpine",
+	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+	"build": {
+		"dockerfile": "Dockerfile",
+		"context": ".",
+		"args": {
+			"USER": "${localEnv:USER}"
+		}
+	},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"gamunu.opentofu"
+			]
+		}
+	},
+	"workspaceMount": "source=${localWorkspaceFolder},target=/app,type=bind",
+	"workspaceFolder": "/app",
+	"remoteUser": "${localEnv:USER}",
+	"remoteEnv": {
+		"HOST_WORKSPACE_PATH": "${localWorkspaceFolder}"
+	}
+}
