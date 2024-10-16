@@ -22,7 +22,7 @@ provider "aws" {
 module "aws_db_instance" {
   source = "./modules/aws_db_instance"
 
-  name_prefix = "week4-db"
+  name_prefix = "week2-db"
   db_name     = "wordpress"
   username    = "admin"
   password    = "yourpassword" # In production, use a secure method for passwords
@@ -36,7 +36,7 @@ module "aws_db_instance" {
 module "aws_instance" {
   source = "./modules/aws_instance"
 
-  name_prefix   = "week4-instance"
+  name_prefix   = "week2-instance"
   ami           = "ami-08578967e04feedea" # Amazon Linux 2 AMI
   instance_type = "t2.micro"
 
