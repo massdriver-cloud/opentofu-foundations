@@ -18,17 +18,29 @@ resource "aws_db_instance" "this" {
   skip_final_snapshot     = true
 
   tags = var.tags
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
+locals {
+  allow_cidr_blocks = concat([data.aws_vpc.default.cidr_block], var.ingress_cidr_blocks)
 }
 
 resource "aws_security_group" "this" {
   name        = "${var.name_prefix}-mariadb"
   description = "Allow access to MariaDB"
 
-  ingress {
-    from_port   = 3306
-    to_port     = 3306
-    protocol    = "tcp"
-    cidr_blocks = [data.aws_vpc.default.cidr_block]
+  dynamic "ingress" {
+    for_each = local.allow_cidr_blocks
+
+    content {
+      from_port   = 3306
+      to_port     = 3306
+      protocol    = "tcp"
+      cidr_blocks = [ingress.value]
+    }
   }
 
   egress {
