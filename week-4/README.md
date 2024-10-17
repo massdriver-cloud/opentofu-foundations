@@ -265,3 +265,36 @@ resource "aws_db_instance" "this" {
 ```
 
 In this example, the prevent_destroy rule ensures that the database instance cannot be accidentally destroyed.
+
+### 7. Cleaning Up
+
+Don't forget to destroy your infrastructure to avoid unnecessary charges. You'll need to remove the lifecycle `prevent_destroy` on the database to successfully destroy:
+
+```sh
+tofu destroy
+```
+
+## Conclusion
+
+This week’s course covered advanced techniques in managing OpenTofu resources, emphasizing flexibility and efficiency in infrastructure configurations.
+
+**Key Takeaways**:
+
+- **Data Sources**: Use data sources to dynamically fetch configuration of existing cloud resources.
+- **Loops**: Use `count` and `for_each` to create multiple instances of a resource.
+- **Dynamic Blocks**: Use dynamic blocks if you need to create multiple blocks in a single resource.
+- **Conditionals**: Use `count` with a boolean to conditionally create resources.
+- **Lifecycle Rules**: Apply lifecycle rules to control how resources are managed during updates and replacements.
+
+
+## Challenges
+
+Want to keep practicing before Week 5? Here are some challenges:
+
+1. **SSH into an Instance**: Use the SSH key to access one of the web instances.
+2. **Use an Autoscaling Group**: Instead of managing the EC2 instances with a `count` convert it to an [AWS Autoscaling Group](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/autoscaling_group).
+3. **Change Security Group Rules**: Update your security group rules to use the recommended [`aws_vpc_security_group_ingress_rule`](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_security_group_ingress_rule) and [`aws_vpc_security_group_gress_rule`](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_security_group_egress_rule).
+4. **Improve Database Security**: Instead of giving database access to the entire VPC, only give access to the security group of the EC2 instance. Even better, add a conditional to the database module that, only if enabled, will grant access to the entire VPC.
+5. **Create a Load Balancer**: Place a load balancer in front of the EC2 instance autoscaling group. NOTE: elastic load balancers do not have a free tier. This will incur costs in your AWS account.
+
+**Happy coding!** See you in Week 5, where we'll explore CI/CD in OpenTofu.

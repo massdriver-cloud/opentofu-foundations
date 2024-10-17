@@ -48,3 +48,8 @@ variable "tags" {
   default     = {}
 }
 
+variable "ingress_cidr_blocks" {
+  description = "CIDR blocks to allow access to the database"
+  type        = list(string)
+  default     = []
+}
