@@ -5,6 +5,13 @@ terraform {
       version = "~> 5.68"
     }
   }
+
+  backend "s3" {
+    # bucket         = "opentofu-foundations-opentofu-state-yc5m" # your bucket name here
+    # key            = "wordpress/terraform.tfstate"              # Change the path per root module
+    # dynamodb_table = "opentofu-foundations-opentofu-locks-yc5m" # your bucket name here
+    # region         = "us-west-2"
+  }
 }
 
 provider "aws" {
@@ -36,7 +43,7 @@ variable "name_prefix" {
 
 # Module for Database Instance
 module "aws_db_instance" {
-  source = "./modules/aws_db_instance"
+  source = "github.com/massdriver-modules/otf-shared-modules//modules/aws_db_instance?ref=main"
 
   name_prefix = "${var.name_prefix}-db"
   db_name     = "wordpress"
@@ -50,7 +57,7 @@ module "aws_db_instance" {
 
 # Module for EC2 Instance
 module "aws_instance" {
-  source = "./modules/aws_instance"
+  source = "github.com/massdriver-modules/otf-shared-modules//modules/aws_instance?ref=main"
 
   name_prefix   = "${var.name_prefix}-instance"
   instance_type = "t2.micro"
