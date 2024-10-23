@@ -29,3 +29,5 @@ terraform.rc
 
 # Ignore lock files
 *.lock.hcl
+TODO.md
+walkthrough
