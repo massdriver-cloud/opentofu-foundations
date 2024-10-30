@@ -297,6 +297,8 @@ Terratest is a set of Go modules which can be use in go's native testing library
 ### Setting up Terratest
 
 ```bash
+export AWS_ACCESS_KEY_ID=xxxxxxxxxxxxxxxxxxxxxxxx
+export AWS_SECRET_ACCESS_KEY=xxxxxxxxxxxxxxxxxxxxxxxx
 mkdir terratest
 cd terratest
 touch main.tf
@@ -383,6 +385,11 @@ func TestSnsToSqs(t *testing.T) {
 
 	assert.Equal(t, got["Message"], want)
 }
+```
+
+```bash
+cd test
+go test -v -timeout 5m
 ```
 
 In the above test we are:
