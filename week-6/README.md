@@ -12,6 +12,8 @@ IaC provides operators with the ability to quickly spin up and spin down environ
 
 ## Tofu test
 
+TofuTest is OpenTofu's built in testing tool. It runs OpenTofu and makes test assertions against either a plan or the state file of a run. The tool then gives a best effort attempt to clean up resources it has created. Cleanup of created resources should always be validated to avoid unexpected charges.
+
 ```bash
 tofu test -h
 Usage: tofu [global options] test [options]
