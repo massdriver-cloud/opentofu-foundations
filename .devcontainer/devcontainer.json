@@ -13,7 +13,9 @@
 	"customizations": {
 		"vscode": {
 			"extensions": [
-				"gamunu.opentofu"
+				"gamunu.opentofu",
+				"golang.Go",
+				"HashiCorp.HCL"
 			]
 		}
 	},
