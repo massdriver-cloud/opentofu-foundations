@@ -1,0 +1,12 @@
+metadata:
+  id: "CKV2_PRE_PROD_INSTANCE_TYPE"
+  name: "Ensure instance types are t2.micro"
+  category: "CONVENTION"
+  severity: "HIGH"
+definition:
+     cond_type: "attribute"
+     resource_types:
+     - "aws_instance"
+     attribute: "instance_type"
+     operator: "equals"
+     value: "t2.micro"

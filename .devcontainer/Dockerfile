@@ -7,7 +7,12 @@ ENV GOPATH /go
 ENV PATH /go/bin:$PATH
 
 RUN apk update \
-    && apk add --no-cache bash sudo go git
+    && apk add --no-cache bash sudo go git python3 py3-pip make
+
+RUN mkdir /venv && \
+    python3 -m venv /venv && \
+    . /venv/bin/activate && \
+    pip3 install checkov
 
 RUN go install golang.org/x/tools/gopls@latest
 
