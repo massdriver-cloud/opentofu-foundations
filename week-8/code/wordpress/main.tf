@@ -11,6 +11,7 @@ terraform {
     key            = "wordpress/terraform.tfstate"              # Change the path per root module
     dynamodb_table = "opentofu-foundations-opentofu-locks-knz1" # your bucket name here
     region         = "us-west-2"
+    encrypt        = true
   }
 }
 

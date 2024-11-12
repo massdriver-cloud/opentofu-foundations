@@ -89,7 +89,40 @@ State files often contain sensitive information such as resource configurations,
 
 - **Encryption**: Enable encryption for state files in remote backends. For example, in the AWS S3 backend, setting `encrypt = true` ensures server-side encryption.
 - **Access Controls**: Use access controls to limit who can view or modify the state file.
+- **Versioning**: Enable bucket versioning for state rollback.
 - **Audit Logs**: Enable logging for your storage backend (e.g., AWS CloudTrail for S3) to track access and modifications to state files.
+
+### Enabling encryption
+
+> [!NOTE]
+> OpenTofu supports encrypting both state and plan files at rest, for both local storage and when using a remote state backend. Since we've already configured a remote state backend using AWS S3, I'll list out those steps below. For a full guide on encrypting state and plan files wherever they are stored, click [here](https://opentofu.org/docs/language/state/encryption/)
+
+1. Enable bucket versioning by adding this resource to your state management module:
+
+```terraform
+resource "aws_s3_bucket_versioning" "state_versioning" {
+  bucket = "opentofu-foundations-opentofu-state-knz1"
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+```
+
+2. Set `encrypt = true` in your `backend` block:
+
+```terraform
+  backend "s3" {
+    bucket         = "my_bucket"                  # your bucket name here
+    key            = "path/to/terraform.tfstate"  # Change the path per root module
+    dynamodb_table = "my_dynamo_table"            # your dynamo table name here
+    region         = "us-west-2"
+    encrypt        = true
+  }
+```
+
+3. Run `tofu init` to initialize the changes.
+4. Run `tofu plan` to verify the versioning update change, then `tofu apply` to make the changes.
+5. Repeat **steps 2 & 3** only for your wordpress app.
 
 ## State Locking
 
