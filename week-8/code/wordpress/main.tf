@@ -7,9 +7,9 @@ terraform {
   }
 
   backend "s3" {
-    bucket         = "opentofu-foundations-opentofu-state-yc5m" # your bucket name here
+    bucket         = "opentofu-foundations-opentofu-state-knz1" # your bucket name here
     key            = "wordpress/terraform.tfstate"              # Change the path per root module
-    dynamodb_table = "opentofu-foundations-opentofu-locks-yc5m" # your bucket name here
+    dynamodb_table = "opentofu-foundations-opentofu-locks-knz1" # your bucket name here
     region         = "us-west-2"
   }
 }
