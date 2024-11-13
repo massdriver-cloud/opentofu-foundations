@@ -7,9 +7,9 @@ terraform {
   }
 
   backend "s3" {
-    bucket         = "opentofu-foundations-opentofu-state-knz1" # your bucket name here
-    key            = "my_state/terraform.tfstate"               # Change the path per root module
-    dynamodb_table = "opentofu-foundations-opentofu-locks-knz1" # your bucket name here
+    bucket         = "your-bucket-here"
+    key            = "my_state/terraform.tfstate"
+    dynamodb_table = "your-dynamodb-table-here"
     region         = "us-west-2"
     encrypt        = true
   }
@@ -23,13 +23,6 @@ variable "name_prefix" {
 module "state" {
   source      = "github.com/massdriver-modules/otf-shared-modules//modules/opentofu_state_backend?ref=main"
   name_prefix = var.name_prefix
-}
-
-resource "aws_s3_bucket_versioning" "state_versioning" {
-  bucket = "opentofu-foundations-opentofu-state-knz1"
-  versioning_configuration {
-    status = "Enabled"
-  }
 }
 
 output "usage" {
