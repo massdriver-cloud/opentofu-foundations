@@ -21,8 +21,9 @@ variable "name_prefix" {
 }
 
 module "state" {
-  source      = "github.com/massdriver-modules/otf-shared-modules//modules/opentofu_state_backend?ref=main"
-  name_prefix = var.name_prefix
+  source            = "github.com/massdriver-modules/otf-shared-modules//modules/opentofu_state_backend?ref=main"
+  name_prefix       = var.name_prefix
+  enable_versioning = true
 }
 
 output "usage" {

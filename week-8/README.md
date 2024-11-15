@@ -66,10 +66,10 @@ To configure a remote backend, update your OpenTofu configuration with a `backen
 ```terraform
 terraform {
   backend "s3" {
-    bucket = "your-state-bucket"
-    key    = "path/to/your/statefile.tfstate"
-    region = "us-west-2"
-    encrypt = true
+    bucket         = "your-state-bucket"
+    key            = "path/to/your/statefile.tfstate"
+    region         = "us-west-2"
+    encrypt        = true
     dynamodb_table = "your-lock-table"
   }
 }
@@ -97,14 +97,13 @@ State files often contain sensitive information such as resource configurations,
 > [!NOTE]
 > OpenTofu supports encrypting both state and plan files at rest, for both local storage and when using a remote state backend. Since we've already configured a remote state backend using AWS S3, I'll list out those steps below. For a full guide on encrypting state and plan files wherever they are stored, click [here](https://opentofu.org/docs/language/state/encryption/)
 
-1. Enable bucket versioning by adding this resource to your state management module:
+1. Enable bucket versioning by updating your module, then run `tofu apply`:
 
 ```terraform
-resource "aws_s3_bucket_versioning" "state_versioning" {
-  bucket = "opentofu-foundations-opentofu-state-knz1"
-  versioning_configuration {
-    status = "Enabled"
-  }
+module "state" {
+  source            = "github.com/massdriver-modules/otf-shared-modules//modules/opentofu_state_backend?ref=main"
+  name_prefix       = var.name_prefix
+  enable_versioning = true
 }
 ```
 
@@ -121,7 +120,6 @@ resource "aws_s3_bucket_versioning" "state_versioning" {
 ```
 
 3. Run `tofu init` to initialize the changes.
-4. Run `tofu plan` to verify the versioning update change, then `tofu apply` to make the changes.
 5. Repeat **steps 2 & 3** only for your wordpress app.
 
 ## State Locking
