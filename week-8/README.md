@@ -97,7 +97,7 @@ State files often contain sensitive information such as resource configurations,
 > [!NOTE]
 > OpenTofu supports encrypting both state and plan files at rest, for both local storage and when using a remote state backend. Since we've already configured a remote state backend using AWS S3, I'll list out those steps below. For a full guide on encrypting state and plan files wherever they are stored, click [here](https://opentofu.org/docs/language/state/encryption/)
 
-1. Enable bucket versioning by updating your module, then run `tofu apply`:
+1. Enable bucket versioning by updating your module, then run `tofu apply` (Might need to run `tofu init --upgrade` if you already have the `state` module installed):
 
 ```terraform
 module "state" {
@@ -120,7 +120,8 @@ module "state" {
 ```
 
 3. Run `tofu init` to initialize the changes.
-5. Repeat **steps 2 & 3** only for your wordpress app.
+4. Run `tofu plan` to ensure no breaking changes.
+5. Repeat **steps 2 - 4** only for your wordpress app.
 
 ## State Locking
 
