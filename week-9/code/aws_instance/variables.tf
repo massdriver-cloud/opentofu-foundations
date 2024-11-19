@@ -1,6 +1,7 @@
 variable "name_prefix" {
   description = "Name prefix for all the resources"
   type        = string
+  default     = "wordpress"
 }
 
 variable "description" {
