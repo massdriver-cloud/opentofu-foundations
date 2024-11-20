@@ -51,22 +51,18 @@ resource "aws_security_group" "this" {
   tags = var.tags
 }
 
-resource "aws_security_group_rule" "vpc_ingress" {
+resource "aws_vpc_security_group_ingress_rule" "vpc" {
   security_group_id = aws_security_group.this.id
 
-  type              = "ingress"
-  from_port         = 3306
-  to_port           = 3306
-  protocol          = "tcp"
-  cidr_blocks       = [data.aws_vpc.default.cidr_block]
+  from_port   = 3306
+  to_port     = 3306
+  ip_protocol = "tcp"
+  cidr_ipv4   = data.aws_vpc.default.cidr_block
 }
 
-resource "aws_security_group_rule" "all_egress" {
+resource "aws_vpc_security_group_egress_rule" "all" {
   security_group_id = aws_security_group.this.id
 
-  type              = "egress"
-  from_port         = 0
-  to_port           = 0
-  protocol          = "-1"
-  cidr_blocks       = ["0.0.0.0/0"]
+  ip_protocol = "-1"
+  cidr_ipv4   = "0.0.0.0/0"
 }
