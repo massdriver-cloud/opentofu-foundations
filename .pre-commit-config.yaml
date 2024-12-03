@@ -1,0 +1,20 @@
+week10: &week10 ^week-10/.*\.tf$
+
+repos:
+- repo: https://github.com/tofuutils/pre-commit-opentofu
+  rev: v2.1.0
+  hooks:
+  - id: tofu_fmt
+    files: *week10
+  - id: tofu_docs
+    files: *week10
+  - id: tofu_tflint
+    files: *week10
+  - id: tofu_validate
+    files: *week10
+  - id: tofu_providers_lock
+    files: *week10
+  - id: tofu_checkov
+    files: *week10
+  - id: infracost_breakdown
+    files: *week10
